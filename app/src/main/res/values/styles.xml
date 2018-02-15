@@ -1,0 +1,21 @@
+<resources>
+
+    <style name="FullScreen" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="colorPrimaryDark">#40739E</item>
+    </style>
+
+    <style name="TextFields" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="colorControlActivated">#CCCCCC</item>
+    </style>
+
+    <style name="FullScreenActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+
+    </style>
+
+
+
+</resources>
