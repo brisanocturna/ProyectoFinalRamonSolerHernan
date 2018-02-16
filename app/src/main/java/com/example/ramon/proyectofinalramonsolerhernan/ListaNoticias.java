@@ -228,7 +228,7 @@ public class ListaNoticias extends AppCompatActivity {
 
     public Date parseFecha(String s){
         Date resultado= null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             resultado=sdf.parse(s);
         } catch (ParseException e) {
