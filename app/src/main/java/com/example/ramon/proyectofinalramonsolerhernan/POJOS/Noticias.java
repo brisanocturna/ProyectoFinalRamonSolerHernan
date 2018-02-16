@@ -1,10 +1,13 @@
 package com.example.ramon.proyectofinalramonsolerhernan.POJOS;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Noticias {
+public class Noticias implements Parcelable {
 
   private long id;
   private String titulo;
@@ -47,6 +50,26 @@ public class Noticias {
     this.autor = autor;
     this.comentarios = comentarios;
   }
+
+  protected Noticias(Parcel in) {
+    id = in.readLong();
+    titulo = in.readString();
+    contenido = in.readString();
+    imagen = in.readString();
+    idAutor = in.readLong();
+  }
+
+  public static final Creator<Noticias> CREATOR = new Creator<Noticias>() {
+    @Override
+    public Noticias createFromParcel(Parcel in) {
+      return new Noticias(in);
+    }
+
+    @Override
+    public Noticias[] newArray(int size) {
+      return new Noticias[size];
+    }
+  };
 
   public long getId() {
     return id;
@@ -124,5 +147,19 @@ public class Noticias {
 
   public void setComentarios(ArrayList<Comentarios> comentarios) {
     this.comentarios = comentarios;
+  }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    dest.writeLong(id);
+    dest.writeString(titulo);
+    dest.writeString(contenido);
+    dest.writeString(imagen);
+    dest.writeLong(idAutor);
   }
 }
