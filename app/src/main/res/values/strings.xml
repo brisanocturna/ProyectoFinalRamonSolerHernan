@@ -30,4 +30,5 @@
     <string name="imagen_noticia">imagen noticia</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="leer_comentarios">Leer Comentarios</string>
 </resources>

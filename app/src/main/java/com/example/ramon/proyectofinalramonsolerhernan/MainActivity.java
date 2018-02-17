@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     Bd bd;
     BottomNavigationItemView todas, usuario;
     MenuItem itemTodas, itemUsuario;
+    LoadData data;
+    BottomNavigationView navigation;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -56,29 +58,20 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    @SuppressLint("RestrictedApi")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         todas = findViewById(R.id.navigation_home);
         usuario = findViewById(R.id.navigation_dashboard);
-
         mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
         toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         recyclerView = findViewById(R.id.recyclerNoticiasFragment);
-        bd = new Bd(this, Config.nombreDB,null,Config.versionDB);
-        database = bd.getReadableDatabase();
-
-        navigation.setSelectedItemId(R.id.navigation_home);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        data = new LoadData(getApplication().getBaseContext());
     }
 
-    @SuppressLint("RestrictedApi")
     public void selectAllNoticias(MenuItem item){
         ArrayList<Noticias> noticias = new ArrayList<>();
         noticias=bd.getAllNoticias(database);
@@ -91,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         item.setEnabled(false);
     }
 
-    @SuppressLint("RestrictedApi")
+
     public void selectUserNoticias(MenuItem item){
         ArrayList<Noticias> noticias = new ArrayList<>();
         noticias=bd.getNoticiasByUser(database,Config.autor);
@@ -109,5 +102,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        data.load();
+        setSupportActionBar(toolbar);
+        bd = new Bd(this, Config.nombreDB,null,Config.versionDB);
+        database = bd.getReadableDatabase();
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setSelectedItemId(R.id.navigation_home);
     }
 }

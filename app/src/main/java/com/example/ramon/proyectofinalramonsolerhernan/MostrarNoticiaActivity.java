@@ -11,17 +11,19 @@ import com.example.ramon.proyectofinalramonsolerhernan.POJOS.Noticias;
 
 public class MostrarNoticiaActivity extends AppCompatActivity {
     public Toolbar toolbar;
-    TextView titulo;
+    TextView titulo, contenido;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostrar_noticia);
         titulo = findViewById(R.id.txtMostrarTituloNoticia);
+        contenido = findViewById(R.id.txtMostrarContenidoNoticias);
         toolbar = findViewById(R.id.toolbarNoticiasMostrar);
         setSupportActionBar(toolbar);
         Bundle b = getIntent().getExtras();
         Noticias n = b.getParcelable("NOTICIA");
         titulo.setText(n.getTitulo().toString());
+        contenido.setText(n.getContenido().toString());
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
