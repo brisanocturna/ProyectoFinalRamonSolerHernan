@@ -1,19 +1,17 @@
 package com.example.ramon.proyectofinalramonsolerhernan;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +22,7 @@ import com.example.ramon.proyectofinalramonsolerhernan.POJOS.Noticias;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class ListaComentariosActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
     boolean first = true;
@@ -59,11 +57,10 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_lista_comentarios);
         todas = findViewById(R.id.navigation_home);
         usuario = findViewById(R.id.navigation_dashboard);
         mTextMessage = (TextView) findViewById(R.id.message);
@@ -71,6 +68,17 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerNoticiasFragment);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         data = new LoadData(getApplication().getBaseContext());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        data.load();
+        setSupportActionBar(toolbar);
+        bd = new Bd(this, Config.nombreDB,null,Config.versionDB);
+        database = bd.getReadableDatabase();
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setSelectedItemId(R.id.navigation_home);
     }
 
     public void selectAllNoticias(MenuItem item){
@@ -88,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void selectUserNoticias(MenuItem item){
         ArrayList<Noticias> noticias = new ArrayList<>();
-        noticias=bd.getNoticiasByUser(database,Config.autor);
+        noticias=bd.getNoticiasByUser(database, Config.autor);
         GridLayoutManager gridLayoutManager= new GridLayoutManager(getApplicationContext(), 1);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
@@ -98,22 +106,9 @@ public class MainActivity extends AppCompatActivity {
         item.setEnabled(false);
     }
 
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        data.load();
-        setSupportActionBar(toolbar);
-        bd = new Bd(this, Config.nombreDB,null,Config.versionDB);
-        database = bd.getReadableDatabase();
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_home);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_mostrar_noticia,menu);
+        getMenuInflater().inflate(R.menu.menunoticias,menu);
         return true;
     }
 

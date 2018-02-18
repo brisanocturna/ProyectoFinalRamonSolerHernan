@@ -27,7 +27,8 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name=".MostrarNoticiaActivity"></activity>
+        <activity android:name=".MostrarNoticiaActivity" />
+        <activity android:name=".ListaComentariosActivity"></activity>
     </application>
 
 </manifest>
