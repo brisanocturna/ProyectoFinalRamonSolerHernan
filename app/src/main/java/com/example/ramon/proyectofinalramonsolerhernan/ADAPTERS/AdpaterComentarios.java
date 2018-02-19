@@ -35,32 +35,17 @@ public class AdpaterComentarios extends RecyclerView.Adapter<AdpaterComentarios.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemview= LayoutInflater.from(context).inflate(R.layout.item_noticia,parent,false);
+        View itemview= LayoutInflater.from(context).inflate(R.layout.item_comentario,parent,false);
         ViewHolder viewHolder = new ViewHolder(itemview);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        for (Comentarios n: comentarios) {
-            holder.autor.setText(n.getAutor().getNick());
-            holder.autor.setTextColor(context.getResources().getColor(R.color.colorText));
-            holder.titulo.setText(n.getTitulo());
-            holder.titulo.setTextColor(context.getResources().getColor(R.color.colorText));
-            SimpleDateFormat temp = new SimpleDateFormat("dd-mm-yyyy");
-            holder.fecha.setText(temp.format(n.getFechaUpdate()));
-            holder.fecha.setTextColor(context.getResources().getColor(R.color.colorText));
-            holder.noticia.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, MostrarNoticiaActivity.class);
-                    Bundle b = new Bundle();
-                    b.putParcelable("NOTICIA",noticias.get(position));
-                    intent.putExtras(b);
-                    context.startActivity(intent);
-                }
-            });
-            //holder.imagen.setImageDrawable();
+        for (Comentarios c: comentarios) {
+            holder.contenido.setText(comentarios.get(position).getContenido());
+            holder.autor.setText(comentarios.get(position).get());
+
         }
     }
 
@@ -71,16 +56,18 @@ public class AdpaterComentarios extends RecyclerView.Adapter<AdpaterComentarios.
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         //TODO HACER Y CAMBIAR EL ITEM COMENTARIO
-        LinearLayout noticia;
-        TextView autor,titulo,fecha;
-        ImageView imagen;
+        LinearLayout comentario;
+        TextView autor,contenido,fecha, titulo;
+        ImageView imagendelete, imagenedit;
         public ViewHolder(View itemView) {
             super(itemView);
-            autor = itemView.findViewById(R.id.txtItemNoticiaAutor);
-            titulo = itemView.findViewById(R.id.txtItemNoticiaTitulo);
-            fecha = itemView.findViewById(R.id.txtItemNoticiaFecha);
-            imagen = itemView.findViewById(R.id.imgItemNoticia);
-            noticia = itemView.findViewById(R.id.ItemNoticia);
+            autor = itemView.findViewById(R.id.txtItemComentarioAutor);
+            //titulo = itemView.findViewById(R.id.txtItemC);
+            contenido = itemView.findViewById(R.id.txtItemComentario);
+            fecha = itemView.findViewById(R.id.txtItemComentarioFecha);
+            imagendelete = itemView.findViewById(R.id.imgItemComentarioDelete);
+            imagenedit = itemView.findViewById(R.id.imgItemComentarioEdit);
+            comentario = itemView.findViewById(R.id.itemComentario);
         }
     }
 }
