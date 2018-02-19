@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,6 +18,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txtItemComentarioTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/txtItemComentario"
@@ -54,8 +62,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:contentDescription="@string/delete"
-                android:scaleType="centerInside."
-                app:srcCompat="@android:drawable/ic_menu_delete" />
+                android:scaleType="centerInside"
+                android:src="@android:drawable/ic_menu_delete" />
 
             <ImageView
                 android:id="@+id/imgItemComentarioEdit"
@@ -64,7 +72,7 @@
                 android:layout_weight="1"
                 android:contentDescription="@string/edit"
                 android:scaleType="centerInside"
-                app:srcCompat="@android:drawable/ic_menu_edit" />
+                android:src="@android:drawable/ic_menu_edit" />
         </LinearLayout>
 
     </LinearLayout>

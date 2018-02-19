@@ -15,9 +15,11 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ramon.proyectofinalramonsolerhernan.ADAPTERS.AdapterComentarios;
 import com.example.ramon.proyectofinalramonsolerhernan.ADAPTERS.AdapterNoticias;
 import com.example.ramon.proyectofinalramonsolerhernan.BD.Bd;
 import com.example.ramon.proyectofinalramonsolerhernan.Config.Config;
+import com.example.ramon.proyectofinalramonsolerhernan.POJOS.Comentarios;
 import com.example.ramon.proyectofinalramonsolerhernan.POJOS.Noticias;
 
 import java.util.ArrayList;
@@ -32,8 +34,9 @@ public class ListaComentariosActivity extends AppCompatActivity {
     Bd bd;
     BottomNavigationItemView todas, usuario;
     MenuItem itemTodas, itemUsuario;
-    LoadData data;
     BottomNavigationView navigation;
+    Bundle b;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -43,13 +46,13 @@ public class ListaComentariosActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     itemTodas = item;
-                    selectAllNoticias(item);
+                    selectAllComentarios(item);
                     if(!first){itemUsuario.setEnabled(true);}
                     return true;
                 case R.id.navigation_dashboard:
                     first=false;
                     itemUsuario = item;
-                    selectUserNoticias(item);
+                    selectUserComentarios(item);
                     itemTodas.setEnabled(true);
                     return true;
             }
@@ -64,46 +67,51 @@ public class ListaComentariosActivity extends AppCompatActivity {
         todas = findViewById(R.id.navigation_home);
         usuario = findViewById(R.id.navigation_dashboard);
         mTextMessage = (TextView) findViewById(R.id.message);
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar3);
         recyclerView = findViewById(R.id.recyclerListaComentarios);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        data = new LoadData(getApplication().getBaseContext());
+
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        data.load();
-        setSupportActionBar(toolbar);
-        bd = new Bd(this, Config.nombreDB,null,Config.versionDB);
-        database = bd.getReadableDatabase();
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_home);
+    public void selectUserComentarios(MenuItem item){
+        ArrayList<Comentarios> comentarios = bd.getAllComentarios(database,getIntent().getExtras().getLong("ID"));
+        ArrayList<Comentarios> comentariosUser = new ArrayList<>();
+        for (Comentarios c:comentarios) {
+            if(c.getIdAutor()==Config.autor.getId()){
+                comentariosUser.add(c);
+            }
+        }
+        if(comentariosUser.size()>0){
+            GridLayoutManager gridLayoutManager= new GridLayoutManager(getApplicationContext(), 1);
+            recyclerView.setLayoutManager(gridLayoutManager);
+            recyclerView.setHasFixedSize(true);
+            AdapterComentarios adapter = new AdapterComentarios(getApplicationContext(), comentariosUser);
+            recyclerView.setAdapter(adapter);
+        }
+        Toast.makeText(this, "Cargando todas las noticias", Toast.LENGTH_SHORT).show();
+        item.setEnabled(false);
     }
 
-    public void selectAllNoticias(MenuItem item){
-        ArrayList<Noticias> noticias = new ArrayList<>();
-        noticias=bd.getAllNoticias(database);
+    public void selectAllComentarios(MenuItem item){
+        ArrayList<Comentarios> comentarios = bd.getAllComentarios(database,getIntent().getExtras().getLong("ID"));
         GridLayoutManager gridLayoutManager= new GridLayoutManager(getApplicationContext(), 1);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
-        AdapterNoticias adapter = new AdapterNoticias(getApplicationContext(), noticias);
+        AdapterComentarios adapter = new AdapterComentarios(getApplicationContext(), comentarios);
         recyclerView.setAdapter(adapter);
         Toast.makeText(this, "Cargando todas las noticias", Toast.LENGTH_SHORT).show();
         item.setEnabled(false);
     }
 
-
-    public void selectUserNoticias(MenuItem item){
-        ArrayList<Noticias> noticias = new ArrayList<>();
-        noticias=bd.getNoticiasByUser(database, Config.autor);
-        GridLayoutManager gridLayoutManager= new GridLayoutManager(getApplicationContext(), 1);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setHasFixedSize(true);
-        AdapterNoticias adapter = new AdapterNoticias(getApplicationContext(), noticias);
-        recyclerView.setAdapter(adapter);
-        Toast.makeText(this, "Cargando las noticias del usuario", Toast.LENGTH_SHORT).show();
-        item.setEnabled(false);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setSupportActionBar(toolbar);
+        bd = new Bd(this, Config.nombreDB,null,Config.versionDB);
+        database = bd.getReadableDatabase();
+        b = getIntent().getExtras();
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setSelectedItemId(R.id.navigation_home);
     }
 
     @Override

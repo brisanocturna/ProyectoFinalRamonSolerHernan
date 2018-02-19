@@ -26,7 +26,8 @@
             android:theme="@style/FullScreenActionBar" />
         <activity
             android:name=".ListaNoticiasActivity"
-            android:label="@string/title_activity_main" />
+            android:label="@string/title_activity_main"
+            android:theme="@style/FullScreenActionBar"/>
         <activity android:name=".MostrarNoticiaActivity" />
         <activity android:name=".ListaComentariosActivity"></activity>
     </application>

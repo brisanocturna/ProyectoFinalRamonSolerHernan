@@ -12,6 +12,18 @@ public class Comentarios {
   private long idAutor;
   private long idNoticia;
   private String titulo;
+  private Autores autor;
+
+    public Comentarios(long id, String contenido, Date fechaCreacion, Date fechaUpdate, long idAutor, long idNoticia, String titulo, Autores autor) {
+        this.id = id;
+        this.contenido = contenido;
+        this.fechaCreacion = fechaCreacion;
+        this.fechaUpdate = fechaUpdate;
+        this.idAutor = idAutor;
+        this.idNoticia = idNoticia;
+        this.titulo = titulo;
+        this.autor = autor;
+    }
 
     public Comentarios(long id, String contenido, Date fechaCreacion, Date fechaUpdate, long idAutor, long idNoticia, String titulo) {
         this.id = id;
@@ -94,4 +106,11 @@ public class Comentarios {
     this.titulo = titulo;
   }
 
+    public Autores getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Autores autor) {
+        this.autor = autor;
+    }
 }

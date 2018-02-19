@@ -189,20 +189,21 @@ public class Bd extends SQLiteOpenHelper{
     ///////////////////////////////// COMENTARIOS ////////////////////////////////////////
 
     public ArrayList<Comentarios> getAllComentarios(SQLiteDatabase db, long id){
-        //TODO necesito un objeto autor en cada comentario
         ArrayList<Comentarios> lista = new ArrayList<>();
 
         Cursor cursorComentarios = db.rawQuery("select *" +
                 " from comentarios where id="+id,null);
         if(cursorComentarios.moveToFirst()){
             do{
+                long idAutor = cursorComentarios.getLong(4);
                 Comentarios comentarios = new Comentarios(cursorComentarios.getInt(0),
                         cursorComentarios.getString(1),
                         new Date(cursorComentarios.getLong(2)),
                         new Date(cursorComentarios.getLong(3)),
-                        cursorComentarios.getLong(4),
+                        idAutor,
                         cursorComentarios.getLong(5),
-                        cursorComentarios.getString(6));
+                        cursorComentarios.getString(6),
+                        getAutor(db, idAutor));
                 lista.add(comentarios);
             }while(cursorComentarios.moveToNext());
         }

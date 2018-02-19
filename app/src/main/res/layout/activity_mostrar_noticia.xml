@@ -85,13 +85,13 @@
         android:layout_marginStart="8dp"
         android:contentDescription="@string/imagen_noticia"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/btnLeerComentarios"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnLeerComentarios"
         android:layout_width="0dp"
         android:layout_height="63dp"
         android:layout_marginBottom="4dp"
