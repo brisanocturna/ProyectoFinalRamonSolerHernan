@@ -22,10 +22,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ListaNoticias"
+            android:name=".ListaNoticias_"
             android:theme="@style/FullScreenActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ListaNoticiasActivity"
             android:label="@string/title_activity_main" />
         <activity android:name=".MostrarNoticiaActivity" />
         <activity android:name=".ListaComentariosActivity"></activity>

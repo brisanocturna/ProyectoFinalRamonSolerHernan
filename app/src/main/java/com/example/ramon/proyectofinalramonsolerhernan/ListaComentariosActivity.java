@@ -65,7 +65,7 @@ public class ListaComentariosActivity extends AppCompatActivity {
         usuario = findViewById(R.id.navigation_dashboard);
         mTextMessage = (TextView) findViewById(R.id.message);
         toolbar = findViewById(R.id.toolbar);
-        recyclerView = findViewById(R.id.recyclerNoticiasFragment);
+        recyclerView = findViewById(R.id.recyclerListaComentarios);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         data = new LoadData(getApplication().getBaseContext());
     }

@@ -31,4 +31,7 @@
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="leer_comentarios">Leer Comentarios</string>
+    <string name="comentarios">COMENTARIOS</string>
+    <string name="todas">TODAS</string>
+    <string name="mias">MIAS</string>
 </resources>

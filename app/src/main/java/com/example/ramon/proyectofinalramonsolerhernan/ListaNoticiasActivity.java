@@ -1,7 +1,6 @@
 package com.example.ramon.proyectofinalramonsolerhernan;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +22,7 @@ import com.example.ramon.proyectofinalramonsolerhernan.POJOS.Noticias;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class ListaNoticiasActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
     boolean first = true;
@@ -63,12 +61,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_lista_noticias);
         todas = findViewById(R.id.navigation_home);
         usuario = findViewById(R.id.navigation_dashboard);
         mTextMessage = (TextView) findViewById(R.id.message);
         toolbar = findViewById(R.id.toolbar);
-        recyclerView = findViewById(R.id.recyclerNoticiasFragment);
+        recyclerView = findViewById(R.id.recyclerListaComentarios);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         data = new LoadData(getApplication().getBaseContext());
     }
@@ -113,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_mostrar_noticia,menu);
+        getMenuInflater().inflate(R.menu.menunoticias,menu);
         return true;
     }
 
