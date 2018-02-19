@@ -21,6 +21,7 @@ import com.example.ramon.proyectofinalramonsolerhernan.Config.Config;
 import com.example.ramon.proyectofinalramonsolerhernan.POJOS.Noticias;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class ListaNoticiasActivity extends AppCompatActivity {
 
@@ -34,6 +35,7 @@ public class ListaNoticiasActivity extends AppCompatActivity {
     MenuItem itemTodas, itemUsuario;
     LoadData data;
     BottomNavigationView navigation;
+    AdapterNoticias adapter;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -69,6 +71,7 @@ public class ListaNoticiasActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerListaComentarios);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         data = new LoadData(getApplication().getBaseContext());
+        data.load();
     }
 
     public void selectAllNoticias(MenuItem item){
@@ -77,10 +80,11 @@ public class ListaNoticiasActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager= new GridLayoutManager(getApplicationContext(), 1);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
-        AdapterNoticias adapter = new AdapterNoticias(getApplicationContext(), noticias);
+        adapter = new AdapterNoticias(getApplicationContext(), noticias);
         recyclerView.setAdapter(adapter);
         Toast.makeText(this, "Cargando todas las noticias", Toast.LENGTH_SHORT).show();
         item.setEnabled(false);
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -90,10 +94,11 @@ public class ListaNoticiasActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager= new GridLayoutManager(getApplicationContext(), 1);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
-        AdapterNoticias adapter = new AdapterNoticias(getApplicationContext(), noticias);
+        adapter = new AdapterNoticias(getApplicationContext(), noticias);
         recyclerView.setAdapter(adapter);
         Toast.makeText(this, "Cargando las noticias del usuario", Toast.LENGTH_SHORT).show();
         item.setEnabled(false);
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -107,6 +112,7 @@ public class ListaNoticiasActivity extends AppCompatActivity {
         database = bd.getReadableDatabase();
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_home);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

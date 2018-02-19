@@ -2,6 +2,7 @@ package com.example.ramon.proyectofinalramonsolerhernan;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.ramon.proyectofinalramonsolerhernan.BD.Bd;
@@ -28,6 +29,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
 
@@ -46,6 +48,7 @@ public class LoadData {
         new LoadNoticias().execute(Config.tablaNoticias);
         new LoadComentarios().execute(Config.tablaComentarios);
     }
+
 
     public class LoadAutores extends AsyncTask<String,Void,String> {
         @Override
