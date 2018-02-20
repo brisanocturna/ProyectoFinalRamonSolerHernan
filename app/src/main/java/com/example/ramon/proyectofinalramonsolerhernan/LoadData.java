@@ -1,12 +1,16 @@
 package com.example.ramon.proyectofinalramonsolerhernan;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.ramon.proyectofinalramonsolerhernan.BD.Bd;
 import com.example.ramon.proyectofinalramonsolerhernan.Config.Config;
+import com.example.ramon.proyectofinalramonsolerhernan.Config.PhotoManager;
 import com.example.ramon.proyectofinalramonsolerhernan.POJOS.Autores;
 import com.example.ramon.proyectofinalramonsolerhernan.POJOS.Comentarios;
 import com.example.ramon.proyectofinalramonsolerhernan.POJOS.Noticias;
@@ -47,6 +51,10 @@ public class LoadData {
         new LoadAutores().execute(Config.tablaAutores);
         new LoadNoticias().execute(Config.tablaNoticias);
         new LoadComentarios().execute(Config.tablaComentarios);
+    }
+
+    public void loadphoto(String s){
+        new UploadPhoto(this.context).execute(s);
     }
 
 
@@ -277,6 +285,65 @@ public class LoadData {
         @Override
         protected void onCancelled() {
 
+        }
+    }
+
+    public class UploadPhoto extends AsyncTask<String,Void,Boolean> {
+
+        private ProgressDialog progressDialog;
+        AlertDialog.Builder builder;
+        Context context;
+        /**
+         * Constructor de clase
+         */
+        public UploadPhoto(Context context) {
+            this.context=context;
+            builder = new AlertDialog.Builder(context);
+        }
+
+        /**
+         * Antes de comenzar la tarea muestra el progressDialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+           //InsertarNoticiaActivity.progressDialog.show();
+        }
+
+        /**
+         * @param
+         */
+        @Override
+        protected Boolean doInBackground(String... params) {
+            Boolean r = false;
+            PhotoManager photoManager = new PhotoManager();
+            r = photoManager.uploadPhoto(params[0]);
+            return r;
+        }
+
+        /**
+         * Cuando se termina de ejecutar, cierra el progressDialog y avisa
+         **/
+        @Override
+        protected void onPostExecute(Boolean resul) {
+            progressDialog.dismiss();
+            if (resul) {
+                builder.setMessage("Imagen subida al servidor")
+                        .setTitle("From Server")
+                        .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }).create().show();
+            } else {
+                builder.setMessage("No se pudo subir la imagen")
+                        .setTitle("From Server")
+                        .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }).create().show();
+            }
         }
     }
 }

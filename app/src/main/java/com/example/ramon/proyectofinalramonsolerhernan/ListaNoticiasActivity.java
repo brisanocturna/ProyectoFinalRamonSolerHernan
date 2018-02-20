@@ -1,6 +1,7 @@
 package com.example.ramon.proyectofinalramonsolerhernan;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -123,6 +124,12 @@ public class ListaNoticiasActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()){
+            case R.id.menuAddNoticia:
+                Intent intent = new Intent(ListaNoticiasActivity.this,InsertarNoticiaActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return true;
     }
 }

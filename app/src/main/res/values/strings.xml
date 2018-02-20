@@ -34,4 +34,7 @@
     <string name="comentarios">COMENTARIOS</string>
     <string name="todas">TODAS</string>
     <string name="mias">MIAS</string>
+    <string name="titulo">Titulo</string>
+    <string name="contenido">Contenido</string>
+    <string name="cargar_imagen">CARGAR IMAGEN</string>
 </resources>
