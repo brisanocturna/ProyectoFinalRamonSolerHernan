@@ -31,18 +31,16 @@ public class PhotoManager {
 
             Log.d("XXXXXXX", ""+postData.length);
 
-            connection.setConnectTimeout(10000);
+            connection.setConnectTimeout(2000);
             connection.setDoInput(true);
             connection.setInstanceFollowRedirects(false);
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type","application/json");
-            connection.setRequestProperty("charset", "UTF-8");
-            connection.setRequestProperty("Content-Length", Integer.toString(postData.length));
             connection.setUseCaches(false);
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("encodedimage", imagen);
-            jsonObject.put("name", +System.currentTimeMillis()+".jpg");
+            jsonObject.put("name", System.currentTimeMillis()+".jpg");
 
             System.out.println(jsonObject.toString());
 
@@ -54,7 +52,23 @@ public class PhotoManager {
             int responsecode = connection.getResponseCode();
 
             if(responsecode == 200){
+                connection.getContent();
+                InputStream in = new BufferedInputStream(connection.getInputStream());
+                BufferedReader streamReader = new BufferedReader(
+                        new InputStreamReader(in));
+                StringBuilder responseString = new StringBuilder();
+                String temp;
+                while((temp=streamReader.readLine())!=null){
+                    responseString.append(temp);
+                }
+                String json = responseString.toString();
+                System.out.println(json);
+
+                String str=json.replaceAll("\\\\", " ");
+                System.out.println(str);
                 return true;
+            }else{
+                return false;
             }
 
         } catch (MalformedURLException e) {

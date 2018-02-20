@@ -1,6 +1,8 @@
 package com.example.ramon.proyectofinalramonsolerhernan;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -8,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,7 +25,10 @@ import android.widget.ImageView;
 
 import com.example.ramon.proyectofinalramonsolerhernan.Config.PhotoManager;
 
+import org.json.JSONException;
+
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class InsertarNoticiaActivity extends AppCompatActivity {
     LoadData loadData;
@@ -31,13 +37,10 @@ public class InsertarNoticiaActivity extends AppCompatActivity {
     Button cargarImagen;
     Toolbar toolbar;
     ImageView image;
-    public static ProgressDialog progressDialog;
+    static String nombreimagen="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Titulo");
-        progressDialog.setMessage("Mensaje");
         setContentView(R.layout.activity_insertar_noticia);
         titulo=findViewById(R.id.edtxInsertarNoticiaTitulo);
         contenido=findViewById(R.id.edtxInsertarNoticiaContenido);
@@ -78,7 +81,12 @@ public class InsertarNoticiaActivity extends AppCompatActivity {
                 getBitmapFromImage(image).compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 byte[] imageBytes = stream.toByteArray();
                 String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-                loadData.loadphoto(encodedImage);
+                //loadData.loadphoto(encodedImage);
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+                StrictMode.setThreadPolicy(policy);
+                PhotoManager photo = new PhotoManager();
+                photo.uploadPhoto(encodedImage);
                 break;
             case R.id.Cancelar:
                 break;

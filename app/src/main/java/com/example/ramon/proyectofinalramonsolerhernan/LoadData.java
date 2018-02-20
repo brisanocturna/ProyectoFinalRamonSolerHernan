@@ -26,8 +26,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -288,31 +290,29 @@ public class LoadData {
         }
     }
 
-    public class UploadPhoto extends AsyncTask<String,Void,Boolean> {
+    public class UploadPhoto extends AsyncTask<String,Void,Boolean>{
 
         private ProgressDialog progressDialog;
-        AlertDialog.Builder builder;
-        Context context;
-        /**
-         * Constructor de clase
-         */
-        public UploadPhoto(Context context) {
-            this.context=context;
-            builder = new AlertDialog.Builder(context);
-        }
+        android.app.AlertDialog.Builder builder;
+        private Context context;
 
+        /**Constructor de clase */
+        public UploadPhoto(Context context) {
+            this.context = context;
+            builder = new android.app.AlertDialog.Builder(context);
+        }
         /**
          * Antes de comenzar la tarea muestra el progressDialog
-         */
+         * */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-           //InsertarNoticiaActivity.progressDialog.show();
+            progressDialog = ProgressDialog.show(context, "Por favor espere", "Subiendo...");
         }
 
         /**
          * @param
-         */
+         * */
         @Override
         protected Boolean doInBackground(String... params) {
             Boolean r = false;
@@ -323,27 +323,33 @@ public class LoadData {
 
         /**
          * Cuando se termina de ejecutar, cierra el progressDialog y avisa
-         **/
+         * **/
         @Override
         protected void onPostExecute(Boolean resul) {
             progressDialog.dismiss();
-            if (resul) {
+            if( resul )
+            {
                 builder.setMessage("Imagen subida al servidor")
-                        .setTitle("From Server")
+                        .setTitle("JC le informa")
                         .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialog,int which) {
                                 dialog.cancel();
                             }
                         }).create().show();
-            } else {
+            }
+            else
+            {
                 builder.setMessage("No se pudo subir la imagen")
-                        .setTitle("From Server")
+                        .setTitle("JC le informa")
                         .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialog,int which) {
                                 dialog.cancel();
                             }
                         }).create().show();
             }
         }
     }
+
+
+
 }
