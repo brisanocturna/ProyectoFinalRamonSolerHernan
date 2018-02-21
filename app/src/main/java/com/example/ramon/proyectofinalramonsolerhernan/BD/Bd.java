@@ -29,7 +29,7 @@ public class Bd extends SQLiteOpenHelper{
             "'email'TEXT NOT NULL"+
             ")";
     final String createTableNoticias = "CREATE TABLE noticias (" +
-            "'id'INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "'id'INTEGER NOT NULL PRIMARY KEY," +
             "'titulo'TEXT NOT NULL," +
             "'contenido'TEXT NOT NULL,"+
             "'fechaCreacion'INTEGER NOT NULL,"+
@@ -38,7 +38,7 @@ public class Bd extends SQLiteOpenHelper{
             "'idAutor'INTEGER NOT NULL"+
             ")";
     final String createTableComentarios = "CREATE TABLE comentarios (" +
-            "'id'INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            "'id'INTEGER NOT NULL PRIMARY KEY," +
             "'contenido'TEXT NOT NULL," +
             "'fechaCreacion'INTEGER NOT NULL,"+
             "'fechaUpdate'INTEGER NOT NULL,"+
@@ -160,7 +160,7 @@ public class Bd extends SQLiteOpenHelper{
 
     public long insertNoticias(Noticias noticias, SQLiteDatabase sqLiteDatabase){
         ContentValues values = new ContentValues();
-
+        values.put("id",noticias.getId());
         values.put("titulo",noticias.getTitulo());
         values.put("contenido",noticias.getContenido());
         values.put("fechaCreacion",noticias.getFechaCreacion().getTime());

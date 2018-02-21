@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                         responseString.append(temp);
                     }
                     String json = responseString.toString();
-
+                    in.close();
                     Gson gsonautor = new Gson();
                     Config.autor = new Autores();
                     Config.autor = gsonautor.fromJson(json, new TypeToken<Autores>(){}.getType());

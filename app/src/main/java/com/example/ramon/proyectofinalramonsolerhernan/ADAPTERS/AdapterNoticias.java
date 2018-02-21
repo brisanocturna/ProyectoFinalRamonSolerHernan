@@ -3,7 +3,10 @@ package com.example.ramon.proyectofinalramonsolerhernan.ADAPTERS;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +15,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.ramon.proyectofinalramonsolerhernan.Config.Config;
 import com.example.ramon.proyectofinalramonsolerhernan.MostrarNoticiaActivity;
 import com.example.ramon.proyectofinalramonsolerhernan.POJOS.Noticias;
 import com.example.ramon.proyectofinalramonsolerhernan.R;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -42,14 +47,15 @@ public class AdapterNoticias extends RecyclerView.Adapter<AdapterNoticias.ViewHo
         return viewHolder;
     }
 
+
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        for (Noticias n: noticias) {
+        Noticias n= noticias.get(position);
             holder.autor.setText(n.getAutor().getNick());
             holder.autor.setTextColor(context.getResources().getColor(R.color.colorText));
             holder.titulo.setText(n.getTitulo());
             holder.titulo.setTextColor(context.getResources().getColor(R.color.colorText));
-            SimpleDateFormat temp = new SimpleDateFormat("dd-mm-yyyy");
+            SimpleDateFormat temp = new SimpleDateFormat("dd-MM-yyyy");
             holder.fecha.setText(temp.format(n.getFechaUpdate()));
             holder.fecha.setTextColor(context.getResources().getColor(R.color.colorText));
             holder.noticia.setOnClickListener(new View.OnClickListener() {
@@ -62,9 +68,9 @@ public class AdapterNoticias extends RecyclerView.Adapter<AdapterNoticias.ViewHo
                     context.startActivity(intent);
                 }
             });
-            //holder.imagen.setImageDrawable();
+            Picasso.with(context).load(Config.imagePath+noticias.get(position).getImagen()).resize(200,200).centerCrop().into(holder.imagen);
+        //  holder.imagen.setimage;
         }
-    }
 
     @Override
     public int getItemCount() {
@@ -72,7 +78,7 @@ public class AdapterNoticias extends RecyclerView.Adapter<AdapterNoticias.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        LinearLayout noticia;
+        ConstraintLayout noticia;
         TextView autor,titulo,fecha;
         ImageView imagen;
         public ViewHolder(View itemView) {

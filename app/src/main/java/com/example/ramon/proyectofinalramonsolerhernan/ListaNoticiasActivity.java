@@ -36,7 +36,6 @@ public class ListaNoticiasActivity extends AppCompatActivity {
     MenuItem itemTodas, itemUsuario;
     LoadData data;
     BottomNavigationView navigation;
-    AdapterNoticias adapter;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -72,20 +71,18 @@ public class ListaNoticiasActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerListaComentarios);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         data = new LoadData(getApplication().getBaseContext());
-        data.load();
     }
 
     public void selectAllNoticias(MenuItem item){
-        ArrayList<Noticias> noticias = new ArrayList<>();
+        ArrayList<Noticias> noticias;
         noticias=bd.getAllNoticias(database);
         GridLayoutManager gridLayoutManager= new GridLayoutManager(getApplicationContext(), 1);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
-        adapter = new AdapterNoticias(getApplicationContext(), noticias);
+        AdapterNoticias adapter = new AdapterNoticias(getApplicationContext(), noticias);
         recyclerView.setAdapter(adapter);
         Toast.makeText(this, "Cargando todas las noticias", Toast.LENGTH_SHORT).show();
         item.setEnabled(false);
-        adapter.notifyDataSetChanged();
     }
 
 
@@ -95,11 +92,10 @@ public class ListaNoticiasActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager= new GridLayoutManager(getApplicationContext(), 1);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
-        adapter = new AdapterNoticias(getApplicationContext(), noticias);
+        AdapterNoticias adapter = new AdapterNoticias(getApplicationContext(), noticias);
         recyclerView.setAdapter(adapter);
         Toast.makeText(this, "Cargando las noticias del usuario", Toast.LENGTH_SHORT).show();
         item.setEnabled(false);
-        adapter.notifyDataSetChanged();
     }
 
 
@@ -113,7 +109,6 @@ public class ListaNoticiasActivity extends AppCompatActivity {
         database = bd.getReadableDatabase();
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_home);
-        recyclerView.setAdapter(adapter);
     }
 
     @Override

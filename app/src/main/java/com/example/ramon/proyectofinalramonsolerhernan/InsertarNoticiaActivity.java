@@ -22,13 +22,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.ramon.proyectofinalramonsolerhernan.Config.Config;
 import com.example.ramon.proyectofinalramonsolerhernan.Config.PhotoManager;
+import com.example.ramon.proyectofinalramonsolerhernan.POJOS.Noticias;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Date;
 
 public class InsertarNoticiaActivity extends AppCompatActivity {
     LoadData loadData;
@@ -37,7 +42,8 @@ public class InsertarNoticiaActivity extends AppCompatActivity {
     Button cargarImagen;
     Toolbar toolbar;
     ImageView image;
-    static String nombreimagen="";
+    Boolean imagenseleccionada= false;
+    String nombreimagen="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,16 +83,33 @@ public class InsertarNoticiaActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.Aceptar:
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                getBitmapFromImage(image).compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] imageBytes = stream.toByteArray();
-                String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-                //loadData.loadphoto(encodedImage);
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
-                StrictMode.setThreadPolicy(policy);
-                PhotoManager photo = new PhotoManager();
-                photo.uploadPhoto(encodedImage);
+                if(imagenseleccionada){
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    getBitmapFromImage(image).compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] imageBytes = stream.toByteArray();
+                    String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                    nombreimagen=System.currentTimeMillis()+".jpg";
+                    loadData.loadphoto(encodedImage, nombreimagen);
+                }
+                if(!nombreimagen.equals("")&& !titulo.getText().toString().equals("") && !contenido.getText().equals("")){
+                    Noticias n = new Noticias(titulo.getText().toString(),contenido.getText().toString(),
+                            new Date(),new Date(),nombreimagen, Config.autor.getId());
+                    JSONObject Jnoticia = new JSONObject();
+                    try {
+                        Jnoticia.put("titulo", n.getTitulo());
+                        Jnoticia.put("contenido",n.getContenido());
+                        Jnoticia.put("fechaCreacion",n.getFechaCreacion());
+                        Jnoticia.put("fechaUpdate",n.getFechaUpdate());
+                        Jnoticia.put("imagen",n.getImagen());
+                        Jnoticia.put("idAutor",n.getIdAutor());
+                        String Jstring = Jnoticia.toString();
+                        loadData.loadNoticia(Jstring);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    Toast.makeText(this, "Rellene todos los datos y asegurese de haber seleccionado una imagen", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.Cancelar:
                 break;
@@ -99,6 +122,9 @@ public class InsertarNoticiaActivity extends AppCompatActivity {
         if(requestCode==1&&resultCode == RESULT_OK){
             Uri imageUri = data.getData();
             image.setImageURI(imageUri);
+            imagenseleccionada=true;
+        }else{
+            imagenseleccionada=false;
         }
     }
 

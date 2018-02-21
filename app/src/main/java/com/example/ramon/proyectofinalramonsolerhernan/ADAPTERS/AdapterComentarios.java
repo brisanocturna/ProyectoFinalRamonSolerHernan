@@ -39,14 +39,14 @@ public class AdapterComentarios extends RecyclerView.Adapter<AdapterComentarios.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        for (Comentarios c: comentarios) {
+            Comentarios c = comentarios.get(position);
             holder.fecha.setTextColor(context.getResources().getColor(R.color.colorText));
             holder.contenido.setTextColor(context.getResources().getColor(R.color.colorText));
             holder.autor.setTextColor(context.getResources().getColor(R.color.colorText));
             holder.titulo.setTextColor(context.getResources().getColor(R.color.colorText));
             holder.contenido.setText(comentarios.get(position).getContenido());
             holder.autor.setText(comentarios.get(position).getAutor().getNick());
-            SimpleDateFormat temp = new SimpleDateFormat("dd-mm-yyyy");
+            SimpleDateFormat temp = new SimpleDateFormat("dd-MM-yyyy");
             holder.fecha.setText(temp.format(comentarios.get(position).getFechaUpdate()));
             holder.titulo.setText(comentarios.get(position).getTitulo());
            holder.imagendelete.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +65,7 @@ public class AdapterComentarios extends RecyclerView.Adapter<AdapterComentarios.
                }
            });
 
-        }
+
     }
 
     @Override
