@@ -71,13 +71,13 @@
         android:gravity="top"
         android:inputType="textMultiLine"
         android:textColor="@color/colorText"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintBottom_toTopOf="@+id/imgMostrarNoticia"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtMostrarTituloNoticia" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imgMostrarNoticia"
         android:layout_width="183dp"
         android:layout_height="159dp"
         android:layout_marginBottom="12dp"
