@@ -70,6 +70,10 @@ public class ListaComentariosActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar3);
         recyclerView = findViewById(R.id.recyclerListaComentarios);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        setSupportActionBar(toolbar);
+        bd = new Bd(this, Config.nombreDB,null,Config.versionDB);
+        database = bd.getReadableDatabase();
+        b = getIntent().getExtras();
 
     }
 
@@ -106,10 +110,12 @@ public class ListaComentariosActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setSupportActionBar(toolbar);
-        bd = new Bd(this, Config.nombreDB,null,Config.versionDB);
-        database = bd.getReadableDatabase();
-        b = getIntent().getExtras();
+        if(itemUsuario!=null){
+            itemUsuario.setEnabled(true);
+        }
+        if(itemTodas!=null){
+            itemTodas.setEnabled(true);
+        }
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_home);
     }

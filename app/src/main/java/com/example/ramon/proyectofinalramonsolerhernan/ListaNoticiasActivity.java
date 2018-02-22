@@ -108,6 +108,12 @@ public class ListaNoticiasActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if(itemUsuario!=null){
+            itemUsuario.setEnabled(true);
+        }
+        if(itemTodas!=null){
+            itemTodas.setEnabled(true);
+        }
         Log.d("LOG","HE VUELTO");
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         data.load();
@@ -123,7 +129,6 @@ public class ListaNoticiasActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menuAddNoticia:
-                itemTodas.setEnabled(true);
                 Intent intent = new Intent(ListaNoticiasActivity.this,InsertarNoticiaActivity.class);
                 startActivity(intent);
                 break;

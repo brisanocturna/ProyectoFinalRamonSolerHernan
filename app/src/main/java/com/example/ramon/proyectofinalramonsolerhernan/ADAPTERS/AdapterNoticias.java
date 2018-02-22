@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ramon.proyectofinalramonsolerhernan.Config.Config;
+import com.example.ramon.proyectofinalramonsolerhernan.ListaNoticiasActivity;
 import com.example.ramon.proyectofinalramonsolerhernan.MostrarNoticiaActivity;
 import com.example.ramon.proyectofinalramonsolerhernan.POJOS.Noticias;
 import com.example.ramon.proyectofinalramonsolerhernan.R;
