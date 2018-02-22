@@ -30,7 +30,8 @@
             android:theme="@style/FullScreenActionBar" />
         <activity android:name=".MostrarNoticiaActivity" />
         <activity android:name=".ListaComentariosActivity" />
-        <activity android:name=".InsertarNoticiaActivity"></activity>
+        <activity android:name=".InsertarNoticiaActivity" />
+        <activity android:name=".InsertarComentarioActivity"></activity>
     </application>
 
 </manifest>

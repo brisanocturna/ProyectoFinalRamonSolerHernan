@@ -1,6 +1,7 @@
 package com.example.ramon.proyectofinalramonsolerhernan;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 public class ListaComentariosActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
+    static AdapterComentarios adapter;
     boolean first = true;
     Toolbar toolbar;
     RecyclerView recyclerView;
@@ -36,6 +39,7 @@ public class ListaComentariosActivity extends AppCompatActivity {
     MenuItem itemTodas, itemUsuario;
     BottomNavigationView navigation;
     Bundle b;
+    LoadData loadData;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -74,6 +78,7 @@ public class ListaComentariosActivity extends AppCompatActivity {
         bd = new Bd(this, Config.nombreDB,null,Config.versionDB);
         database = bd.getReadableDatabase();
         b = getIntent().getExtras();
+        loadData = new LoadData(this);
 
     }
 
@@ -89,10 +94,10 @@ public class ListaComentariosActivity extends AppCompatActivity {
             GridLayoutManager gridLayoutManager= new GridLayoutManager(getApplicationContext(), 1);
             recyclerView.setLayoutManager(gridLayoutManager);
             recyclerView.setHasFixedSize(true);
-            AdapterComentarios adapter = new AdapterComentarios(getApplicationContext(), comentariosUser);
+            adapter = new AdapterComentarios(getApplicationContext(), comentariosUser);
             recyclerView.setAdapter(adapter);
         }
-        Toast.makeText(this, "Cargando todas las noticias", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Cargando los comentarios del usuario", Toast.LENGTH_SHORT).show();
         item.setEnabled(false);
     }
 
@@ -101,14 +106,15 @@ public class ListaComentariosActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager= new GridLayoutManager(getApplicationContext(), 1);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
-        AdapterComentarios adapter = new AdapterComentarios(getApplicationContext(), comentarios);
+        adapter = new AdapterComentarios(getApplicationContext(), comentarios);
         recyclerView.setAdapter(adapter);
-        Toast.makeText(this, "Cargando todas las noticias", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Cargando todos los comentarios", Toast.LENGTH_SHORT).show();
         item.setEnabled(false);
     }
 
     @Override
     protected void onResume() {
+        loadData.load();
         super.onResume();
         if(itemUsuario!=null){
             itemUsuario.setEnabled(true);
@@ -128,6 +134,13 @@ public class ListaComentariosActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()){
+            case R.id.menuAddNoticia:
+                Intent intent = new Intent(ListaComentariosActivity.this,InsertarComentarioActivity.class);
+                intent.putExtras(getIntent().getExtras());
+                startActivity(intent);
+                break;
+        }
+        return true;
     }
 }

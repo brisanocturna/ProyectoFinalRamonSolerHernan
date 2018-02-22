@@ -1,9 +1,12 @@
 package com.example.ramon.proyectofinalramonsolerhernan.POJOS;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
-public class Comentarios {
+public class Comentarios implements Parcelable {
 
   private long id;
   private String contenido;
@@ -44,7 +47,27 @@ public class Comentarios {
     this.titulo = titulo;
   }
 
-  public long getId() {
+    protected Comentarios(Parcel in) {
+        id = in.readLong();
+        contenido = in.readString();
+        idAutor = in.readLong();
+        idNoticia = in.readLong();
+        titulo = in.readString();
+    }
+
+    public static final Creator<Comentarios> CREATOR = new Creator<Comentarios>() {
+        @Override
+        public Comentarios createFromParcel(Parcel in) {
+            return new Comentarios(in);
+        }
+
+        @Override
+        public Comentarios[] newArray(int size) {
+            return new Comentarios[size];
+        }
+    };
+
+    public long getId() {
     return id;
   }
 
@@ -112,5 +135,19 @@ public class Comentarios {
 
     public void setAutor(Autores autor) {
         this.autor = autor;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(contenido);
+        dest.writeLong(idAutor);
+        dest.writeLong(idNoticia);
+        dest.writeString(titulo);
     }
 }

@@ -168,7 +168,7 @@ public class Bd extends SQLiteOpenHelper{
         values.put("imagen",noticias.getImagen());
         values.put("idAutor",noticias.getIdAutor());
 
-        return sqLiteDatabase.insert("noticias","id",values);
+        return sqLiteDatabase.insert("noticias",null,values);
     }
 
     public long updateNoticias(Noticias noticias, SQLiteDatabase sqLiteDatabase){
@@ -192,7 +192,7 @@ public class Bd extends SQLiteOpenHelper{
         ArrayList<Comentarios> lista = new ArrayList<>();
 
         Cursor cursorComentarios = db.rawQuery("select *" +
-                " from comentarios where id="+id,null);
+                " from comentarios where idNoticia="+id,null);
         if(cursorComentarios.moveToFirst()){
             do{
                 long idAutor = cursorComentarios.getLong(4);
@@ -212,7 +212,7 @@ public class Bd extends SQLiteOpenHelper{
 
     public long insertComentario(Comentarios comentarios, SQLiteDatabase sqLiteDatabase){
         ContentValues values = new ContentValues();
-
+        values.put("id",comentarios.getId());
         values.put("titulo",comentarios.getTitulo());
         values.put("contenido",comentarios.getContenido());
         values.put("fechaCreacion",comentarios.getFechaCreacion().getTime());
