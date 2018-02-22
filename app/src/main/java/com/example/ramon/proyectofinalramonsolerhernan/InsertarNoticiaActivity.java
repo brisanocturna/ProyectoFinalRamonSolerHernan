@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -24,9 +25,11 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.ramon.proyectofinalramonsolerhernan.BD.Bd;
 import com.example.ramon.proyectofinalramonsolerhernan.Config.Config;
 import com.example.ramon.proyectofinalramonsolerhernan.Config.PhotoManager;
 import com.example.ramon.proyectofinalramonsolerhernan.POJOS.Noticias;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,6 +46,7 @@ public class InsertarNoticiaActivity extends AppCompatActivity {
     Toolbar toolbar;
     ImageView image;
     Boolean imagenseleccionada= false;
+    Boolean editmode = false;
     String nombreimagen="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +72,18 @@ public class InsertarNoticiaActivity extends AppCompatActivity {
         });
         if(getIntent().getExtras()!=null){
             b=getIntent().getExtras();
-            //rellenar(b);
-        }else{
-
+            editmode=true;
+            Toast.makeText(this, "Ha entrado en modo edicion", Toast.LENGTH_SHORT).show();
+            rellenar(b);
         }
+    }
+
+    public void rellenar(Bundle b){
+        Noticias n = b.getParcelable("NOTICIA");
+        nombreimagen = n.getImagen();
+        titulo.setText(n.getTitulo().toString());
+        contenido.setText(n.getTitulo().toString());
+        Picasso.with(this).load(Config.imagePath+n.getImagen()).resize(200,200).centerCrop().into(image);
     }
 
     @Override
@@ -91,11 +103,16 @@ public class InsertarNoticiaActivity extends AppCompatActivity {
                     nombreimagen=System.currentTimeMillis()+".jpg";
                     loadData.loadphoto(encodedImage, nombreimagen);
                 }
-                if(!nombreimagen.equals("")&& !titulo.getText().toString().equals("") && !contenido.getText().equals("")){
+                if(!nombreimagen.equals("")&& !titulo.getText().toString().equals("") && !contenido.getText().toString().equals("")){
                     Noticias n = new Noticias(titulo.getText().toString(),contenido.getText().toString(),
                             new Date(),new Date(),nombreimagen, Config.autor.getId());
                     JSONObject Jnoticia = new JSONObject();
                     try {
+
+                        if(editmode){
+                            Noticias noticia =getIntent().getExtras().getParcelable("NOTICIA");
+                            Jnoticia.put("id",noticia.getId());
+                        }
                         Jnoticia.put("titulo", n.getTitulo());
                         Jnoticia.put("contenido",n.getContenido());
                         Jnoticia.put("fechaCreacion",n.getFechaCreacion());
@@ -103,7 +120,12 @@ public class InsertarNoticiaActivity extends AppCompatActivity {
                         Jnoticia.put("imagen",n.getImagen());
                         Jnoticia.put("idAutor",n.getIdAutor());
                         String Jstring = Jnoticia.toString();
-                        loadData.loadNoticia(Jstring);
+                        if(editmode){
+                            loadData.updateN(Jstring);
+                            Toast.makeText(this, "Llamando a actulizar", Toast.LENGTH_SHORT).show();
+                        }else{
+                            loadData.loadNoticia(Jstring);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

@@ -15,11 +15,15 @@ import com.example.ramon.proyectofinalramonsolerhernan.Config.Config;
 import com.example.ramon.proyectofinalramonsolerhernan.POJOS.Noticias;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MostrarNoticiaActivity extends AppCompatActivity {
     public Toolbar toolbar;
     TextView titulo, contenido;
     Button comentarios;
     ImageView imagen;
+    LoadData loadData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +32,7 @@ public class MostrarNoticiaActivity extends AppCompatActivity {
         contenido = findViewById(R.id.txtMostrarContenidoNoticias);
         toolbar = findViewById(R.id.toolbarNoticiasMostrar);
         imagen = findViewById(R.id.imgMostrarNoticia);
+        loadData = new LoadData(this);
         setSupportActionBar(toolbar);
         Bundle b = getIntent().getExtras();
         final Noticias n = b.getParcelable("NOTICIA");
@@ -54,6 +59,30 @@ public class MostrarNoticiaActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+       switch (item.getItemId()){
+           case R.id.menuEdit:
+               Intent intent = new Intent(MostrarNoticiaActivity.this,InsertarNoticiaActivity.class);
+               intent.putExtras(getIntent().getExtras());
+               startActivity(intent);
+               break;
+           case R.id.menuDelete:
+               JSONObject Jnoticia = new JSONObject();
+               Noticias noticia =getIntent().getExtras().getParcelable("NOTICIA");
+               try {
+                   Jnoticia.put("id",noticia.getId());
+                   Jnoticia.put("titulo", noticia.getTitulo());
+                   Jnoticia.put("contenido",noticia.getContenido());
+                   Jnoticia.put("fechaCreacion",noticia.getFechaCreacion());
+                   Jnoticia.put("fechaUpdate",noticia.getFechaUpdate());
+                   Jnoticia.put("imagen",noticia.getImagen());
+                   Jnoticia.put("idAutor",noticia.getIdAutor());
+               } catch (JSONException e) {
+                   e.printStackTrace();
+               }
+               String Jstring = Jnoticia.toString();
+               loadData.deleteN(Jstring);
+               break;
+       }
+       return true;
     }
 }

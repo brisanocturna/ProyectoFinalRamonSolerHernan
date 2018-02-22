@@ -61,6 +61,12 @@ public class LoadData {
     public void loadNoticia(String s){
         new UploadNoticia().execute(s);
     }
+    public void updateN (String s ){
+        new UpdateNoticia().execute(s);
+    }
+    public void deleteN (String s){
+        new DeleteNoticia().execute(s);
+    }
 
 
     public class LoadAutores extends AsyncTask<String,Void,String> {
@@ -197,6 +203,7 @@ public class LoadData {
                         bd.insertNoticias(obj,instancia);
                     }
                 }
+                ListaNoticiasActivity.navigation.setSelectedItemId(R.id.navigation_home);
             }else{
                 Toast.makeText(context, "Fallo al cargar tabla Noticias porfavor cierre la aplicacion y vuelva a intentarlo en unos minutos", Toast.LENGTH_SHORT).show();
             }
@@ -436,6 +443,185 @@ public class LoadData {
             else
             {
                 builder.setMessage("no se pudo insertar la noticia")
+                        .setTitle("JC le informa")
+                        .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int which) {
+                                dialog.cancel();
+                            }
+                        }).create().show();
+            }
+        }
+    }
+
+    public class UpdateNoticia extends AsyncTask<String, Void, Boolean>{
+        android.app.AlertDialog.Builder builder;
+        public UpdateNoticia(){
+            builder = new android.app.AlertDialog.Builder(context);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                URL url = new URL("http://rmhdam2017.ddns.net/index.php/api/noticias");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                byte[] postData = strings[0].getBytes();
+
+                connection.setConnectTimeout(2000);
+                connection.setDoInput(true);
+                connection.setInstanceFollowRedirects(false);
+                connection.setRequestMethod("PUT");
+                connection.setRequestProperty("Content-Type","application/json");
+                connection.setRequestProperty("charset", "UTF-8");
+                connection.setRequestProperty("Content-Length", Integer.toString(postData.length));
+                connection.setUseCaches(false);
+
+                PrintWriter out = new PrintWriter(connection.getOutputStream());
+                out.print(strings[0]);
+                Log.d("LOG",strings[0]);
+                out.close();
+
+                connection.getContent();
+                InputStream in = new BufferedInputStream(connection.getInputStream());
+                BufferedReader streamReader = new BufferedReader(
+                        new InputStreamReader(in, "UTF-8"));
+                StringBuilder responseString = new StringBuilder();
+                String temp;
+                while((temp=streamReader.readLine())!=null){
+                    responseString.append(temp);
+                }
+                JSONObject object = new JSONObject(responseString.toString());
+
+                if(object != null){
+                    Noticias n = new Noticias(object.getLong("id"),object.getString("titulo"),
+                            object.getString("contenido"),new Date(object.getString("fechaCreacion")),
+                            new Date(object.getString("fechaUpdate")),object.getString("imagen"),
+                            object.getLong("idAutor"));
+                    Bd bd = new Bd(context,Config.nombreDB,null, Config.versionDB);
+                    SQLiteDatabase instancia = bd.getWritableDatabase();
+                    bd.updateNoticias(n,instancia);
+                    in.close();
+                    return true;
+                }else{
+                    return false;
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if( aBoolean )
+            {
+                builder.setMessage("Noticia actualizada con exito")
+                        .setTitle("JC le informa")
+                        .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int which) {
+                                dialog.cancel();
+                            }
+                        }).create().show();
+            }
+            else
+            {
+                builder.setMessage("no se pudo actualizar la noticia")
+                        .setTitle("JC le informa")
+                        .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int which) {
+                                dialog.cancel();
+                            }
+                        }).create().show();
+            }
+        }
+    }
+
+    public class DeleteNoticia extends AsyncTask<String, Void, Boolean>{
+        android.app.AlertDialog.Builder builder;
+        public DeleteNoticia(){
+            builder = new android.app.AlertDialog.Builder(context);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                URL url = new URL("http://rmhdam2017.ddns.net/index.php/api/noticias");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                byte[] postData = strings[0].getBytes();
+
+                connection.setConnectTimeout(2000);
+                connection.setDoInput(true);
+                connection.setInstanceFollowRedirects(false);
+                connection.setRequestMethod("DELETE");
+                connection.setRequestProperty("Content-Type","application/json");
+                connection.setRequestProperty("charset", "UTF-8");
+                connection.setRequestProperty("Content-Length", Integer.toString(postData.length));
+                connection.setUseCaches(false);
+
+                PrintWriter out = new PrintWriter(connection.getOutputStream());
+                out.print(strings[0]);
+                Log.d("LOG",strings[0]);
+                out.close();
+
+                connection.getContent();
+                InputStream in = new BufferedInputStream(connection.getInputStream());
+                BufferedReader streamReader = new BufferedReader(
+                        new InputStreamReader(in, "UTF-8"));
+                StringBuilder responseString = new StringBuilder();
+                String temp;
+                while((temp=streamReader.readLine())!=null){
+                    responseString.append(temp);
+                }
+                Log.d("String",""+responseString);
+                JSONObject object = new JSONObject(responseString.toString());
+
+                if(object != null){
+                    Noticias n = new Noticias(object.getLong("id"),object.getString("titulo"),
+                            object.getString("contenido"),new Date(object.getString("fechaCreacion")),
+                            new Date(object.getString("fechaUpdate")),object.getString("imagen"),
+                            object.getLong("idAutor"));
+                    Bd bd = new Bd(context,Config.nombreDB,null, Config.versionDB);
+                    SQLiteDatabase instancia = bd.getWritableDatabase();
+                    bd.deleteNoticia(n,instancia);
+                    in.close();
+                    return true;
+                }else{
+                    return false;
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if( aBoolean )
+            {
+                builder.setMessage("Noticia eliminada con exito")
+                        .setTitle("JC le informa")
+                        .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int which) {
+                                dialog.cancel();
+                            }
+                        }).create().show();
+            }
+            else
+            {
+                builder.setMessage("no se pudo eliminar la noticia")
                         .setTitle("JC le informa")
                         .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int which) {

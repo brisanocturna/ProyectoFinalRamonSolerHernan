@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -35,7 +36,8 @@ public class ListaNoticiasActivity extends AppCompatActivity {
     BottomNavigationItemView todas, usuario;
     MenuItem itemTodas, itemUsuario;
     LoadData data;
-    BottomNavigationView navigation;
+    static BottomNavigationView navigation;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -71,6 +73,9 @@ public class ListaNoticiasActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerListaComentarios);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         data = new LoadData(getApplication().getBaseContext());
+        setSupportActionBar(toolbar);
+        bd = new Bd(this, Config.nombreDB,null,Config.versionDB);
+        database = bd.getReadableDatabase();
     }
 
     public void selectAllNoticias(MenuItem item){
@@ -103,12 +108,9 @@ public class ListaNoticiasActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        data.load();
-        setSupportActionBar(toolbar);
-        bd = new Bd(this, Config.nombreDB,null,Config.versionDB);
-        database = bd.getReadableDatabase();
+        Log.d("LOG","HE VUELTO");
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_home);
+        data.load();
     }
 
     @Override
@@ -121,6 +123,7 @@ public class ListaNoticiasActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menuAddNoticia:
+                itemTodas.setEnabled(true);
                 Intent intent = new Intent(ListaNoticiasActivity.this,InsertarNoticiaActivity.class);
                 startActivity(intent);
                 break;
