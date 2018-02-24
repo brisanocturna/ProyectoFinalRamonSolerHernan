@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ramon.proyectofinalramonsolerhernan.Config.Config;
 import com.example.ramon.proyectofinalramonsolerhernan.InsertarComentarioActivity;
 import com.example.ramon.proyectofinalramonsolerhernan.InsertarNoticiaActivity;
 import com.example.ramon.proyectofinalramonsolerhernan.ListaComentariosActivity;
@@ -62,39 +63,44 @@ public class AdapterComentarios extends RecyclerView.Adapter<AdapterComentarios.
             SimpleDateFormat temp = new SimpleDateFormat("dd-MM-yyyy");
             holder.fecha.setText(temp.format(comentarios.get(position).getFechaUpdate()));
             holder.titulo.setText(comentarios.get(position).getTitulo());
+            if(Config.autor.getId()==c.getIdAutor()){
+                holder.imagendelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-           holder.imagendelete.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   //TODO cambiar por quitar de la base de datos
-                   JSONObject Jcomentario = new JSONObject();
-                   try {
-                       Jcomentario.put("titulo", c.getTitulo());
-                       Jcomentario.put("contenido",c.getContenido());
-                       Jcomentario.put("fechaCreacion",c.getFechaCreacion());
-                       Jcomentario.put("fechaUpdate",c.getFechaUpdate());
-                       Jcomentario.put("idAutor",c.getIdAutor());
-                       Jcomentario.put("idNoticia",c.getIdNoticia());
-                       Jcomentario.put("id",c.getId());
-                   } catch (JSONException e) {
-                       e.printStackTrace();
-                   }
-                   String Jstring = Jcomentario.toString();
-                   loadData.deleteC(Jstring);
-                   comentarios.remove(position);
-               }
-           });
-           holder.imagenedit.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   //TODO hacer el intent y llevarlo hasta editar comentario
-                   Intent intent = new Intent(context,InsertarComentarioActivity.class);
-                   Bundle b = new Bundle();
-                   b.putParcelable("COMENTARIO",c);
-                   intent.putExtras(b);
-                   context.startActivity(intent);
-               }
-           });
+                        JSONObject Jcomentario = new JSONObject();
+                        try {
+                            Jcomentario.put("titulo", c.getTitulo());
+                            Jcomentario.put("contenido",c.getContenido());
+                            Jcomentario.put("fechaCreacion",c.getFechaCreacion());
+                            Jcomentario.put("fechaUpdate",c.getFechaUpdate());
+                            Jcomentario.put("idAutor",c.getIdAutor());
+                            Jcomentario.put("idNoticia",c.getIdNoticia());
+                            Jcomentario.put("id",c.getId());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        String Jstring = Jcomentario.toString();
+                        loadData.deleteC(Jstring);
+                        comentarios.remove(position);
+                    }
+                });
+                holder.imagenedit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //TODO hacer el intent y llevarlo hasta editar comentario
+                        Intent intent = new Intent(context,InsertarComentarioActivity.class);
+                        Bundle b = new Bundle();
+                        b.putParcelable("COMENTARIO",c);
+                        intent.putExtras(b);
+                        context.startActivity(intent);
+                    }
+                });
+            }else{
+                holder.imagendelete.setImageResource(R.color.transparent);
+                holder.imagenedit.setImageResource(R.color.transparent);
+            }
+
 
 
     }

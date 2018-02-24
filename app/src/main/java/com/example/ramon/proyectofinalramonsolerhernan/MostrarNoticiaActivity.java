@@ -53,8 +53,13 @@ public class MostrarNoticiaActivity extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_mostrar_noticia,menu);
-        return true;
+        Noticias n=getIntent().getExtras().getParcelable("NOTICIA");
+        if(Config.autor.getId()== n.getIdAutor()){
+            getMenuInflater().inflate(R.menu.menu_mostrar_noticia,menu);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override

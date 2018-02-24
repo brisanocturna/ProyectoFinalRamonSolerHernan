@@ -22,9 +22,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ListaNoticias_"
-            android:theme="@style/FullScreenActionBar" />
-        <activity
             android:name=".ListaNoticiasActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/FullScreenActionBar" />

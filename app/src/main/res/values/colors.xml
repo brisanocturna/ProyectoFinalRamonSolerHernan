@@ -4,4 +4,5 @@
     <color name="colorActionBar">#000000</color>
     <color name="colorText">#FFFFFF</color>
     <color name="colorAccentRed">#b8312f</color>
+    <color name="transparent">@android:color/transparent</color>
 </resources>

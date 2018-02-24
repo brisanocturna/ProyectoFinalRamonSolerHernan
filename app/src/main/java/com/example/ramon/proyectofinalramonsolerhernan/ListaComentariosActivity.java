@@ -90,13 +90,11 @@ public class ListaComentariosActivity extends AppCompatActivity {
                 comentariosUser.add(c);
             }
         }
-        if(comentariosUser.size()>0){
             GridLayoutManager gridLayoutManager= new GridLayoutManager(getApplicationContext(), 1);
             recyclerView.setLayoutManager(gridLayoutManager);
             recyclerView.setHasFixedSize(true);
             adapter = new AdapterComentarios(getApplicationContext(), comentariosUser);
             recyclerView.setAdapter(adapter);
-        }
         Toast.makeText(this, "Cargando los comentarios del usuario", Toast.LENGTH_SHORT).show();
         item.setEnabled(false);
     }

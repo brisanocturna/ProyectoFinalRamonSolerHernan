@@ -94,6 +94,7 @@ public class InsertarComentarioActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.Cancelar:
+                finish();
                 break;
         }
         return true;
