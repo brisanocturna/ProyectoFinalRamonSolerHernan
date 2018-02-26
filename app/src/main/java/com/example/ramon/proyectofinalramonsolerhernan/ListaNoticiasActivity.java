@@ -66,6 +66,9 @@ public class ListaNoticiasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_noticias);
+        this.deleteDatabase(Config.nombreDB);
+        bd = new Bd(this, Config.nombreDB,null,Config.versionDB);
+        database = bd.getReadableDatabase();
         todas = findViewById(R.id.navigation_home);
         usuario = findViewById(R.id.navigation_dashboard);
         mTextMessage = (TextView) findViewById(R.id.message);
@@ -74,8 +77,6 @@ public class ListaNoticiasActivity extends AppCompatActivity {
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         data = new LoadData(getApplication().getBaseContext());
         setSupportActionBar(toolbar);
-        bd = new Bd(this, Config.nombreDB,null,Config.versionDB);
-        database = bd.getReadableDatabase();
     }
 
     public void selectAllNoticias(MenuItem item){
