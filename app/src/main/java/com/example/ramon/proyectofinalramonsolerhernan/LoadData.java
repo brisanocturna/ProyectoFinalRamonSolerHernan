@@ -355,7 +355,7 @@ public class LoadData {
             if( resul )
             {
                 builder.setMessage("Imagen subida al servidor")
-                        .setTitle("JC le informa")
+                        .setTitle("Mensaje del servidor")
                         .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int which) {
                                 dialog.cancel();
@@ -365,7 +365,7 @@ public class LoadData {
             else
             {
                 builder.setMessage("No se pudo subir la imagen")
-                        .setTitle("JC le informa")
+                        .setTitle("Mensaje del servidor")
                         .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int which) {
                                 dialog.cancel();
@@ -444,7 +444,7 @@ public class LoadData {
             if( aBoolean )
             {
                 builder.setMessage("Noticia insertada con exito")
-                        .setTitle("JC le informa")
+                        .setTitle("Mensaje del servidor")
                         .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int which) {
                                 dialog.cancel();
@@ -454,7 +454,7 @@ public class LoadData {
             else
             {
                 builder.setMessage("no se pudo insertar la noticia")
-                        .setTitle("JC le informa")
+                        .setTitle("Mensaje del servidor")
                         .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int which) {
                                 dialog.cancel();
@@ -533,7 +533,7 @@ public class LoadData {
             if( aBoolean )
             {
                 builder.setMessage("Noticia actualizada con exito")
-                        .setTitle("JC le informa")
+                        .setTitle("Mensaje del servidor")
                         .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int which) {
                                 dialog.cancel();
@@ -543,7 +543,7 @@ public class LoadData {
             else
             {
                 builder.setMessage("no se pudo actualizar la noticia")
-                        .setTitle("JC le informa")
+                        .setTitle("Mensaje del servidor")
                         .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int which) {
                                 dialog.cancel();
@@ -623,7 +623,7 @@ public class LoadData {
             if( aBoolean )
             {
                 builder.setMessage("Noticia eliminada con exito")
-                        .setTitle("JC le informa")
+                        .setTitle("Mensaje del servidor")
                         .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int which) {
                                 dialog.cancel();
@@ -633,7 +633,7 @@ public class LoadData {
             else
             {
                 builder.setMessage("no se pudo eliminar la noticia")
-                        .setTitle("JC le informa")
+                        .setTitle("Mensaje del servidor")
                         .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int which) {
                                 dialog.cancel();
@@ -711,7 +711,7 @@ public class LoadData {
             if( aBoolean )
             {
                 builder.setMessage("Comentario insertado con exito")
-                        .setTitle("JC le informa")
+                        .setTitle("Mensaje del servidor")
                         .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int which) {
                                 dialog.cancel();
@@ -721,7 +721,7 @@ public class LoadData {
             else
             {
                 builder.setMessage("no se pudo insertar el Comentario")
-                        .setTitle("JC le informa")
+                        .setTitle("Mensaje del servidor")
                         .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int which) {
                                 dialog.cancel();
@@ -799,7 +799,7 @@ public class LoadData {
             if( aBoolean )
             {
                 builder.setMessage("Comentario actualizado con exito")
-                        .setTitle("JC le informa")
+                        .setTitle("Mensaje del servidor")
                         .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int which) {
                                 dialog.cancel();
@@ -809,7 +809,7 @@ public class LoadData {
             else
             {
                 builder.setMessage("no se pudo actualizar el comentario")
-                        .setTitle("JC le informa")
+                        .setTitle("Mensaje del servidor")
                         .setNeutralButton("Aceptar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int which) {
                                 dialog.cancel();
