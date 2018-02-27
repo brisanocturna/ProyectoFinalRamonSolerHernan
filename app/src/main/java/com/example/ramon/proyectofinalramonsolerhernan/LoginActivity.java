@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -163,7 +164,8 @@ public class LoginActivity extends AppCompatActivity {
                 out.close();
 
                 int responsecode = connection.getResponseCode();
-
+                Log.d("login", login);
+                Log.d("response",""+responsecode);
                 if(responsecode==200){
                     connection.getContent();
                     InputStream in = new BufferedInputStream(connection.getInputStream());
@@ -175,6 +177,7 @@ public class LoginActivity extends AppCompatActivity {
                         responseString.append(temp);
                     }
                     String json = responseString.toString();
+                    Log.d("repsonse",json);
                     in.close();
                     Gson gsonautor = new Gson();
                     Config.autor = new Autores();
